@@ -14,7 +14,7 @@
     "lint:fix": "eslint src/**/*.ts --fix"
   },
   "dependencies": {
-    "commander": "^11.0.0"
+    "commander": "^15.0.0"
   },
   "keywords": [
     "database",
