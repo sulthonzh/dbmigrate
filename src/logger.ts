@@ -25,7 +25,6 @@ export class ConsoleLogger implements Logger {
 
 export class SilentLogger implements Logger {
   log(message: string): void {
-    // Silent
   }
 
   error(message: string): void {
@@ -37,6 +36,5 @@ export class SilentLogger implements Logger {
   }
 
   info(message: string): void {
-    // Silent
   }
 }

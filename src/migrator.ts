@@ -2,7 +2,7 @@ import { Config, Migration, MigrationResult, DatabaseDriver } from './types';
 import { SQLiteDriver } from './drivers/sqlite';
 import { PostgreSQLDriver } from './drivers/postgresql';
 import { MySQLDriver } from './drivers/mysql';
-import { loadMigrations, readConfig } from './utils';
+import { loadMigrations } from './utils';
 import { Logger } from './logger';
 
 export class Migrator {
@@ -105,7 +105,6 @@ export class Migrator {
           }
 
           if (this.config.transaction) {
-            // Start transaction
             await this.driver.execute('BEGIN TRANSACTION');
             
             try {
@@ -122,7 +121,6 @@ export class Migrator {
               throw error;
             }
           } else {
-            // No transaction
             await this.driver.execute(migration.up);
             await this.driver.markMigration(migration);
             
@@ -136,8 +134,7 @@ export class Migrator {
           const errorMessage = `Failed to apply migration ${migration.version}_${migration.name}: ${error.message}`;
           errors.push(errorMessage);
           this.logger.error(errorMessage);
-          
-          // Stop on error if not in transaction mode
+
           if (!this.config.transaction) {
             break;
           }
@@ -164,7 +161,6 @@ export class Migrator {
     let migrationsToRollback: any[] = [];
 
     if (to) {
-      // Rollback to specific version
       const targetIndex = appliedStatus.findIndex(m => m.version === to);
       if (targetIndex === -1) {
         throw new Error(`Migration ${to} not found in applied migrations`);
@@ -172,7 +168,6 @@ export class Migrator {
       
       migrationsToRollback = appliedStatus.slice(targetIndex);
     } else {
-      // Rollback last N steps
       migrationsToRollback = appliedStatus.slice(-steps);
     }
 
@@ -189,7 +184,6 @@ export class Migrator {
           }
 
           if (this.config.transaction) {
-            // Start transaction
             await this.driver.execute('BEGIN TRANSACTION');
             
             try {
@@ -204,7 +198,6 @@ export class Migrator {
               throw error;
             }
           } else {
-            // No transaction
             await this.driver.execute(migrationFile.down);
             await this.driver.unmarkMigration(migration);
             
@@ -216,8 +209,7 @@ export class Migrator {
           const errorMessage = `Failed to rollback migration ${migration.version}_${migration.name}: ${error.message}`;
           errors.push(errorMessage);
           this.logger.error(errorMessage);
-          
-          // Stop on error if not in transaction mode
+
           if (!this.config.transaction) {
             break;
           }

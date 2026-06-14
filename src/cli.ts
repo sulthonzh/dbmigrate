@@ -297,7 +297,6 @@ program
     }
   });
 
-// Helper functions
 function getDatabaseUrl(driver: string): string {
   switch (driver) {
     case 'sqlite':
@@ -337,7 +336,6 @@ function formatDuration(ms: number): string {
   }
 }
 
-// Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
   logger.error(`Uncaught exception: ${error.message}`);
   process.exit(1);
@@ -348,5 +346,4 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-// Export for testing
 export { program };
