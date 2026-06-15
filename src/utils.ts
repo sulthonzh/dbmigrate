@@ -7,7 +7,6 @@ export function readConfig(configPath: string = './.dbmigrate.json'): Config {
     const content = fs.readFileSync(configPath, 'utf-8');
     const config = JSON.parse(content);
 
-    // Validate required fields
     const required = ['driver', 'database', 'migrationsDir'];
     for (const field of required) {
       if (!config[field]) {
@@ -15,13 +14,11 @@ export function readConfig(configPath: string = './.dbmigrate.json'): Config {
       }
     }
 
-    // Validate driver
     const validDrivers = ['sqlite', 'postgresql', 'mysql'];
     if (!validDrivers.includes(config.driver)) {
       throw new Error(`Invalid driver: ${config.driver}. Must be one of: ${validDrivers.join(', ')}`);
     }
 
-    // Set defaults
     return {
       tableName: config.tableName || 'schema_migrations',
       transaction: config.transaction !== false,
@@ -46,12 +43,10 @@ export function createMigrationFile(config: Config, description: string): string
   const filename = `${version}_${description}.sql`;
   const filepath = path.join(config.migrationsDir, filename);
 
-  // Create migrations directory if it doesn't exist
   if (!fs.existsSync(config.migrationsDir)) {
     fs.mkdirSync(config.migrationsDir, { recursive: true });
   }
 
-  // Create migration template
   const template = `-- Up migration
 -- ${description}
 
@@ -118,7 +113,6 @@ export function loadMigrations(config: Config): Migration[] {
     }
   }
 
-  // Sort by timestamp
   return migrations.sort((a, b) => a.timestamp - b.timestamp);
 }
 
