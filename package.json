@@ -45,5 +45,13 @@
     "jest": "^30.0.0",
     "ts-jest": "^29.1.0",
     "typescript": "^6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sulthonzh/dbmigrate.git"
+  },
+  "homepage": "https://github.com/sulthonzh/dbmigrate#readme",
+  "bugs": {
+    "url": "https://github.com/sulthonzh/dbmigrate/issues"
   }
 }
