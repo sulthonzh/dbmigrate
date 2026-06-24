@@ -79,3 +79,9 @@ Thumbs.db
 # keep config templates
 !.dbmigrate.json
 !config.json
+
+# python
+__pycache__/
+.venv/
+*.egg-info/
+.mypy_cache/
