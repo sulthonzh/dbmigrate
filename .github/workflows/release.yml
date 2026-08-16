@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     branches: [main]
+    paths-ignore: ['**.md', 'docs/**']
 
 concurrency:
   group: release-${{ github.ref }}
@@ -16,6 +17,7 @@ jobs:
   release:
     name: Version Packages
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
         with:
