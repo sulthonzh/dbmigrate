@@ -30,7 +30,7 @@ jobs:
       - run: npm ci --legacy-peer-deps
 
       - name: Create Version Pull Request
-        uses: changesets/action@v2.1.0
+        uses: changesets/action@v2.1.1
         with:
           version-script: npx --package @changesets/cli changeset version
           commit-message: "chore(release): version packages"
